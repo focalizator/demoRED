@@ -56,8 +56,13 @@ export async function getData() {
         for await (var item of assetList) {
             eventList.push(await sdk.assets.get(item, { info: true }));
         }
-      //  console.log(eventList);
-        return eventList;
+        //  console.log(eventList);
+        var eventValues = []
+        for (let i = 0; i < eventList.length; i++) {
+            eventValues.push(eventList[i].response.info);
+        }
+
+        return eventValues;
     } catch (ex) {
 
     }
@@ -68,11 +73,13 @@ export default function Dashboard() {
 
     const [user, setUser] = useState("");
     const [eventList, setEventList] = useState("");
-    
+
+    var eventData = [];
+
     async function initData() {
         setUser(await getUser());
-        setEventList(await getData());
-        console.log(eventList);
+        setEventList(JSON.stringify(await getData()));
+        console.log(JSON.stringify(eventList));
     }
     initData();
 
@@ -90,8 +97,10 @@ export default function Dashboard() {
                 </button>
             </Row>
 
-            <p> List of offers</p>
-
+            <h2> List of offers</h2>
+            <div>
+                {eventList}
+            </div>
         </div>
     );
 }
