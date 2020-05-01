@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Button, FormGroup, FormControl, ControlLabel, Row } from "react-bootstrap";
+import React, { useState, Text } from "react";
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
 import { withRouter, Redirect, useHistory } from 'react-router-dom';
 
 
 import ZIMTHubSDK from '@zimt/sdk';
+
+//0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567 private key
 
 export async function getUser(text) {
 
@@ -12,20 +14,21 @@ export async function getUser(text) {
     var privateKey = 0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567;
     var ZIMT_API_KEY = 0xAd828FA2C2cda69b45221191EE2108222b9D3E06;
     try {
-        
+
         const sdk = new ZIMTHubSDK({
             api: {
                 core: "https://hub.zi.mt",
             },
-            privateKey: "0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567",
+            privateKey: text,
             apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
         });
-
-        
-
+        const result = sdk.accounts.me();
+        console.log("Account" + result);
+        return true;
     }
     catch (ex) {
         console.log(ex);
+        return false;
     }
 }
 
@@ -33,20 +36,18 @@ export async function getUser(text) {
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [privatekey, setPrivatekey] = useState("");
 
     let history = useHistory();
 
-    function validateForm() {
-        return email.length > 0 && password.length > 0;
-    }
 
     function handleSubmit(event) {
         event.preventDefault();
     }
 
     async function handleClick() {
-        await getUser(password);
-        if (localStorage.getItem('Authentication') === "") {
+        var resp = await getUser(privatekey);
+        if (resp === false) {
             console.log("Error login")
         } else {
             console.log("Success login");
@@ -80,10 +81,20 @@ export default function Login() {
                         type="password"
                     />
                 </FormGroup>
-                <button block bsSize="large" disabled={!validateForm()} type="submit" onClick={handleClick}>
+
+                <p> Or insert private key</p>
+                <FormGroup >
+                    <ControlLabel>Private key</ControlLabel>
+                    <FormControl
+                        value={privatekey}
+                        onChange={e => setPrivatekey(e.target.value)}
+                        type="privatekey"
+                    />
+                </FormGroup>
+                <button block bsSize="large" type="submit" onClick={handleClick}>
                     Login
         </button>
-                <button block bsSize="large pl-2" type="submit" onClick={goToSignup} >
+                <button block bsSize="large" type="submit" onClick={goToSignup} >
                     Sign Up
         </button>
             </form>
