@@ -6,11 +6,11 @@ import { getData } from "./Login";
 import { withRouter, Redirect, useHistory } from 'react-router-dom';
 
 
-export async function createUser(email, password) {
+export async function createUser(organization, name, email, password) {
 
 
     try {
-
+        
         const sdk = new ZIMTHubSDK({
             api: {
                 core: "https://hub.zi.mt",
@@ -19,43 +19,31 @@ export async function createUser(email, password) {
             apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
         });
 
-        const organization_id = await sdk.organizations.me();
-        console.log(JSON.stringify(organization_id));
+        const checkifaccountexists = await sdk.accounts.exists({ address: "0x627969CD9Ef88bA7e61694947020540d7eD0001d", email: email })
+        var accountexist = JSON.stringify(checkifaccountexists.response);
 
 
-        const signMeta = sdk.accounts.generateObjectWithMeta(true);
-        var signature = await sdk.hub.sign({ prop: 12312312 });
-
-
-        var CryptoJS = require("crypto-js");
-        var ciphertext = CryptoJS.AES.encrypt("0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567", "asdasdasd");
-
-        const newaddress = sdk.accounts.generateObjectWithMeta(true);
-        console.log(newaddress.signature);
-
-        console.log(ciphertext.toString());
-        const userRequest = await sdk.organizations.createOrganizationAccount(`${organization_id.response.id}`,
-
-            {
-                "object": {
-                    "meta": {
-                        "created_by": `0x66a269912194A15E12fF90b8fD790866b998d2eB`
-                    },
-                    "signature": `${newaddress.signature}`
+        if (accountexist === "false") {
+            console.log(organization, name, email, password);
+            var create = await sdk.organizations.create({
+                "organization": {
+                    "name": organization
                 },
-                "data": {
-                    "full_name": "asd",
-                    "email": "asd@gmail.com",
-                    "address": `${newaddress}`,
+                "account": {
+                    "full_name": name,
+                    "email": email,
+                    "address": "0xAB1e383FBb525ABFB380e1999B16b6d5cD2BAd58",
                     "security": {
-                        "token": `${ciphertext}`
+                        "token": password
                     }
                 }
-            }
+            });
+            console.log(create);
+            return true;
+        } else {
+            return false;
+        }
 
-        );
-
-        console.log(userRequest);
 
     } catch (ex) {
         console.log(ex);
@@ -68,6 +56,8 @@ export default function Signup() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [organization, setOrganization] = useState("");
+    const [name, setName] = useState("");
 
     let history = useHistory();
 
@@ -80,12 +70,33 @@ export default function Signup() {
     }
 
     async function handleClick() {
-        createUser("email", "");
+        var orgCreation = await createUser(organization, name, email, password);
+        console.log(orgCreation);
     }
 
     return (
         <div className="Login">
             <form onSubmit={handleSubmit}>
+                <FormGroup controlId="organization" bsSize="large">
+                    <ControlLabel>Organization</ControlLabel>
+                    <FormControl
+                        autoFocus
+                        type="organization"
+                        value={organization}
+                        onChange={e => setOrganization(e.target.value)}
+                    />
+
+                </FormGroup>
+                <FormGroup controlId="name" bsSize="large">
+                    <ControlLabel>Name</ControlLabel>
+                    <FormControl
+                        autoFocus
+                        type="name"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+
+                </FormGroup>
                 <FormGroup controlId="email" bsSize="large">
                     <ControlLabel>Email</ControlLabel>
                     <FormControl

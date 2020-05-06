@@ -6,6 +6,7 @@ import Navigation from './components/Navigation';
 import Dashboard from './components/Dashboard';
 import CreateOffer from './components/CreateOffer';
 import Signup from './components/Signup';
+import UpdateOffer from './components/UpdateOffer';
  
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
              <Route path="/dashboard" component={Dashboard} exact/>
              <Route path="/createoffer" component ={CreateOffer} exact />
              <Route path="/signup" component={Signup} exact />
+             <Route path="/updateoffer" component={UpdateOffer} exact />
            </Switch>
         </div> 
       </BrowserRouter>

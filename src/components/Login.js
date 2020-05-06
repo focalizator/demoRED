@@ -8,7 +8,7 @@ import ZIMTHubSDK from '@zimt/sdk';
 
 //0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567 private key
 
-export async function getUser(text) {
+export async function getUser(name, email, password) {
 
     var publicKey = 0x66a269912194A15E12fF90b8fD790866b998d2eB;
     var privateKey = 0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567;
@@ -19,12 +19,46 @@ export async function getUser(text) {
             api: {
                 core: "https://hub.zi.mt",
             },
-            privateKey: text,
+            privateKey: "0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567",
             apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
         });
-        const result = sdk.accounts.me();
-        console.log("Account" + result);
-        return true;
+
+
+        const searchUser = await sdk.accounts.search(
+            {
+                query: {
+                    accounts: [
+                        {
+                            field: 'data.full_name',
+                            operator: 'starts-with',
+                            value: name,
+                        },
+                    ],
+                },
+                limit: 5
+            });
+
+        console.log(searchUser);
+
+        const userEmail = searchUser.response.map(x => {
+            return x.data.email;
+         });
+         const userName = searchUser.response.map(y => {
+             return y.data.full_name;
+         })
+
+
+         if(userEmail) {
+            if(userEmail == email && userName == name) {
+                console.log("LOGGED IN");
+                return true;
+            }
+            else {
+                console.log("LOG IN FAILED");
+                return false;
+            }
+        }
+        return false;
     }
     catch (ex) {
         console.log(ex);
@@ -37,6 +71,7 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [privatekey, setPrivatekey] = useState("");
+    const [name, setName] = useState("");
 
     let history = useHistory();
 
@@ -46,7 +81,7 @@ export default function Login() {
     }
 
     async function handleClick() {
-        var resp = await getUser(privatekey);
+        var resp = await getUser(name, email, password);
         if (resp === false) {
             console.log("Error login")
         } else {
@@ -63,6 +98,16 @@ export default function Login() {
     return (
         <div className="Login">
             <form onSubmit={handleSubmit}>
+                <FormGroup controlId="name" bsSize="large">
+                    <ControlLabel>Your name</ControlLabel>
+                    <FormControl
+                        autoFocus
+                        type="name"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+
+                </FormGroup>
                 <FormGroup controlId="email" bsSize="large">
                     <ControlLabel>Email</ControlLabel>
                     <FormControl
@@ -82,7 +127,7 @@ export default function Login() {
                     />
                 </FormGroup>
 
-                <p> Or insert private key</p>
+                {/* <p> Or insert private key</p>
                 <FormGroup >
                     <ControlLabel>Private key</ControlLabel>
                     <FormControl
@@ -90,7 +135,7 @@ export default function Login() {
                         onChange={e => setPrivatekey(e.target.value)}
                         type="privatekey"
                     />
-                </FormGroup>
+                </FormGroup> */}
                 <button block bsSize="large" type="submit" onClick={handleClick}>
                     Login
         </button>
