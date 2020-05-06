@@ -111,7 +111,6 @@ export default function Login() {
                 <FormGroup controlId="email" bsSize="large">
                     <ControlLabel>Email</ControlLabel>
                     <FormControl
-                        autoFocus
                         type="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}

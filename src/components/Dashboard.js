@@ -101,7 +101,6 @@ export default class Dashboard extends Component {
             eventList: await this.getData(),
             gotData: true,
         })
-        console.log(typeof (this.state.eventList) + "CDDDD ");
 
 
     }
@@ -147,9 +146,12 @@ export default class Dashboard extends Component {
 
                 <h2> List of offers</h2>
                 <div>
-                    {this.state.gotData === false ? <p>No Data</p> : this.state.eventList.map(s => (<li>{s}</li>))}
+                    {this.state.gotData === false ? <p>No Data</p> : <p> Got Data</p>}
                 </div>
             </div>
         )
     };
 }
+
+
+//this.state.eventList.map(s => (<Text>{s}</Text>))
