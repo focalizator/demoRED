@@ -146,7 +146,7 @@ export default class Dashboard extends Component {
 
                 <h2> List of offers</h2>
                 <div>
-                    {this.state.gotData === false ? <p>No Data</p> : <p> Got Data</p>}
+                    {this.state.gotData === false ? <p>No Data</p> :<p>WE GOT DATA!!!!</p>}
                 </div>
             </div>
         )
@@ -154,4 +154,4 @@ export default class Dashboard extends Component {
 }
 
 
-//this.state.eventList.map(s => (<Text>{s}</Text>))
+//
