@@ -1767,16 +1767,17 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zimt/sdk@^1.10.4":
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/@zimt/sdk/-/sdk-1.10.4.tgz#a0d8584e9fa1f11801a222b8283c09d75d9d40f7"
-  integrity sha512-OvybgbJcTllwC/mNcY6MetQUaH8X/+RSXJJ6c6/9W2p9tWMoeB4ULOVEp/nSsvfiKBDJUPD4yDsD4CoqZX1PoA==
+"@zimt/sdk@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@zimt/sdk/-/sdk-1.11.1.tgz#f9bde6e3b18c370fd123dfec70210e65533f3221"
+  integrity sha512-PehMd38+CPATFfbFvNe7LSsXV+OsUfAL+2DsSshDgHnrCaSm3IyZHomVdA+TZ5DYCcFmNG1HbjYWvXs8Ko7Qng==
   dependencies:
     "@babel/runtime" "^7.8.3"
     axios "^0.19.1"
     base64url "^3.0.1"
     crypto-js "^4.0.0"
     ethers "^4.0.44"
+    iso-datestring-validator "^2.0.5"
     moment "^2.24.0"
 
 abab@^2.0.0:
@@ -5726,6 +5727,11 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
+iso-datestring-validator@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/iso-datestring-validator/-/iso-datestring-validator-2.0.5.tgz#1c4892dae048248ab977062b5977147686d0cb51"
+  integrity sha512-jZNAHoEKMmJ9jNjbqeS5QvWaUQ6AHWHsUu8lYCvYlvyifwZrJkQssliUsMaUyeZ+CCsN/t0AC2j9E41skbkOFw==
+
 isobject@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89"
@@ -6903,9 +6909,9 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@~0.5.1:
     minimist "^1.2.5"
 
 moment@^2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
-  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
+  version "2.25.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.25.3.tgz#252ff41319cf41e47761a1a88cab30edfe9808c0"
+  integrity sha512-PuYv0PHxZvzc15Sp8ybUCoQ+xpyPWvjOuK72a5ovzp2LI32rJXOiIfyoFoYvG3s6EwwrdkMyWuRiEHSZRLJNdg==
 
 move-concurrently@^1.0.1:
   version "1.0.1"

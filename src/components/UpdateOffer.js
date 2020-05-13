@@ -24,48 +24,47 @@ export default class UpdateOffer extends Component {
             overprice: "",
             paymentDate: "",
 
-            assetId: "",
-            eventID: "",
+            assetId: this.props.location.state.asset,
+            eventID: this.props.location.state.eventid,
 
 
             gotData: false,
         }
-
         this.handleClick = this.handleClick.bind(this);
         this.createAssetAndEvent = this.createAssetAndEvent.bind(this);
     }
 
 
     async componentDidMount() {
-        await this.getAsset();
+        // await this.getAsset();
         await this.getOfferData();
     }
 
 
-    async getAsset() {
-        try {
+    // async getAsset() {
+    //     try {
 
 
-            const sdk = new ZIMTHubSDK({
-                api: {
-                    core: "https://hub.zi.mt",
-                },
-                privateKey: "0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567",
-                apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
-            });
+    //         const sdk = new ZIMTHubSDK({
+    //             api: {
+    //                 core: "https://hub.zi.mt",
+    //             },
+    //             privateKey: "0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567",
+    //             apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
+    //         });
 
-            const result = await sdk.assets.get("0xad9ec1d1e95c742b3d86c5fa1a541afcd2016a161ca91c01e59d6bb69cce4fb9", { info: true });
-            console.log("123456" + JSON.stringify(result));
-            var eventslength = result.response.events;
+    //         const result = await sdk.assets.get("0xad9ec1d1e95c742b3d86c5fa1a541afcd2016a161ca91c01e59d6bb69cce4fb9", { info: true });
+    //         console.log("123456" + JSON.stringify(result));
+    //         var eventslength = result.response.events;
 
-            this.setState({
-                assetId: result.response.events[eventslength.length - 1].meta.asset_id,
-                eventID: result.response.events[eventslength.length - 1].id,
-            })
-        } catch (ex) {
+    //         this.setState({
+    //             assetId: result.response.events[eventslength.length - 1].meta.asset_id,
+    //             eventID: result.response.events[eventslength.length - 1].id,
+    //         })
+    //     } catch (ex) {
 
-        }
-    }
+    //     }
+    // }
 
     async getOfferData() {
         try {
@@ -116,8 +115,8 @@ export default class UpdateOffer extends Component {
                 privateKey: "0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567",
                 apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
             });
-
-            const event = await sdk.events.generateEvent(this.state.assetId,
+            console.log(`"${this.state.assetId}"`);
+            const event = await sdk.events.generateEvent(`"${this.state.assetId}"`,
                 {
                     "type": "info",
                     "name": `${this.state.name}`,
@@ -158,25 +157,28 @@ export default class UpdateOffer extends Component {
 
                 <FormGroup bsSize="large">
                     <FormGroup controlId="name">
-                        <ControlLabel>Nume oferta    </ControlLabel>
+
                         <FormControl
                             value={this.state.name}
+                            placeholder="Nume oferta"
                             onChange={e => this.setState({
                                 name: e.target.value
                             })}
                         />
                     </FormGroup>
                     <FormGroup controlId="description">
-                        <ControlLabel>Descriere    </ControlLabel>
+                   
                         <FormControl
+                            placeholder="Descriere"
                             value={this.state.description}
                             onChange={e => this.setState({
                                 description: e.target.value
                             })}
                         />
                     </FormGroup>
-                    <ControlLabel controlId="priceActive">Pret energia active, fara alte componente (taxe) lei/mw</ControlLabel>
+                  
                     <FormControl
+                        placeholder="Pret energia active, fara alte componente (taxe) lei/mw"
                         value={this.state.priceActive}
                         onChange={e => this.setState({
                             priceActive: e.target.value
@@ -185,8 +187,9 @@ export default class UpdateOffer extends Component {
 
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Categorie consumator    </ControlLabel>
+                  
                     <FormControl
+                        placeholder="Categorie consumator"
                         value={this.state.category}
                         onChange={e => this.setState({
                             category: e.target.value
@@ -194,8 +197,9 @@ export default class UpdateOffer extends Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Valabilite (luni)    </ControlLabel>
+                   
                     <FormControl
+                        placeholder="Valabilitate"
                         value={this.state.valability}
                         onChange={e => this.setState({
                             valability: e.target.value
@@ -203,8 +207,9 @@ export default class UpdateOffer extends Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Comision in lei/MW     </ControlLabel>
+                  
                     <FormControl
+                        placeholder="Comision"
                         value={this.state.commision}
                         onChange={e => this.setState({
                             commision: e.target.value
@@ -212,8 +217,9 @@ export default class UpdateOffer extends Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Overprice     </ControlLabel>
+                    
                     <FormControl
+                        placeholder="Overprice"
                         value={this.state.overprice}
                         onChange={e => this.setState({
                             overprice: e.target.value
@@ -221,8 +227,9 @@ export default class UpdateOffer extends Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Termen de plata    </ControlLabel>
+                  
                     <FormControl
+                        placeholder="Termen de plata"
                         value={this.state.paymentDate}
                         onChange={e => this.setState({
                             paymentDate: e.target.value

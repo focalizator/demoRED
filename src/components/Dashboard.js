@@ -17,8 +17,7 @@ export default class Dashboard extends Component {
 
         this.state = {
             user: "",
-            eventList: [],
-
+            eventList: undefined,
             gotData: false,
         }
 
@@ -26,8 +25,8 @@ export default class Dashboard extends Component {
         this.renderData = this.renderData.bind(this);
         this.getData = this.getData.bind(this);
         this.getUser = this.getUser.bind(this);
-
-
+        this.goToEditPage = this.goToEditPage.bind(this);
+        this.deteleItem = this.deteleItem.bind(this);
     }
     async getUser() {
 
@@ -61,6 +60,12 @@ export default class Dashboard extends Component {
         // var privateKey = 0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567;
         // var ApiKey = 0xAd828FA2C2cda69b45221191EE2108222b9D3E06;
 
+    }
+
+    async componentDidMount() {
+
+
+
         try {
             const sdk = new ZIMTHubSDK({
                 api: {
@@ -81,28 +86,30 @@ export default class Dashboard extends Component {
                 eventList.push(await sdk.assets.get(item, { info: true }));
             }
             //  console.log(eventList);
-            var eventValues = []
+            var zeventValues = []
             for (let i = 0; i < eventList.length; i++) {
-                eventValues.push(eventList[i].response.info);
+                zeventValues.push(eventList[i].response.info);
             }
-            console.log(eventValues);
-            return eventValues;
+
+
+            var finalEvents = [];
+
+            for (var i = 0; i < zeventValues.length; i++) {
+                if (zeventValues[i].receipt !== undefined) {
+                    finalEvents.push(zeventValues[i]);
+                }
+            }
+
+            console.log(finalEvents);
+
+            this.setState({
+                user: await this.getUser(),
+                eventList: finalEvents,
+                gotData: true,
+            })
         } catch (ex) {
-
+            console.log(ex);
         }
-    }
-
-    async componentDidMount() {
-
-
-
-        this.setState({
-            user: await this.getUser(),
-            eventList: await this.getData(),
-            gotData: true,
-        })
-
-
     }
 
 
@@ -123,11 +130,21 @@ export default class Dashboard extends Component {
         // return (<div>{listItems}</div>)
     }
 
+    goToEditPage(asset, eventid) {
+        this.props.history.push('/updateoffer', { asset, eventid });
+    }
+
 
 
 
     handleClick() {
-        this.props.history.push('/createooffer');
+        this.props.history.push('/createoffer');
+    }
+
+    deteleItem() {
+        console.log(
+            "delete"
+        )
     }
 
     render() {
@@ -146,7 +163,34 @@ export default class Dashboard extends Component {
 
                 <h2> List of offers</h2>
                 <div>
-                    {this.state.gotData === false ? <p>No Data</p> :<p>WE GOT DATA!!!!</p>}
+                    {this.state.gotData === false ? <p>No Data</p> :
+
+                        this.state.eventList.map(item =>
+
+
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}
+
+
+                            >
+                                <div style={{
+                                    width: 250,
+                                    height: 100,
+                                    background: "linear-gradient(6.74deg, #6DB483 0%, #A6CE48 96.52%)",
+                                }}>
+                                    <p onClick={(e) => {
+                                        this.goToEditPage(item.meta.asset_id, item.id);
+                                    }}> {item.data.name}</p>
+
+                                    <p style={{ color: 'red', paddingTop: 15 }} onClick={(e) => {
+                                        this.deteleItem();
+                                    }}> DELETE</p>
+                                </div>
+
+
+                            </div>
+
+                        )
+                    }
                 </div>
             </div>
         )

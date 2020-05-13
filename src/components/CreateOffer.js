@@ -12,39 +12,39 @@ export async function createAssetAndEvent(name, description, priceActive, catego
     // var privateKey = 0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567;
     // var ApiKey = 0xAd828FA2C2cda69b45221191EE2108222b9D3E06;
 
-    try{
-
-    
-    const sdk = new ZIMTHubSDK({
-        api: {
-            core: "https://hub.zi.mt",
-        },
-        privateKey: "0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567",
-        apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
-    });
+    try {
 
 
-    const result = await sdk.assets.create(sdk.assets.generateAsset());
-    console.log(`${result.response.id}`);
-    const event = await sdk.events.generateEvent(`${result.response.id}`,
-    {
-        "type": "info",
-        "name": `${name}`,
-        "properties": {
-            "description": `${description}`,
-            "priceActive": `${priceActive}`,
-            "category": `${category}`,
-            "valability": `${valability}`,
-            "commision": `${commision}`,
-            "overprice": `${overprice}`,
-            "paymentDate": `${paymentDate}`
-        },
-    }
-    );
-    console.log("EVENT  " + JSON.stringify(event));
-    const created = await sdk.events.createEvent(`${event.meta.asset_id}`, JSON.stringify(event));
-    console.log(created);
-    }catch(ex){
+        const sdk = new ZIMTHubSDK({
+            api: {
+                core: "https://hub.zi.mt",
+            },
+            privateKey: "0xa627c0fa6983c9e09d8694405ade16671951c2f0dcd498071a161787aeea3567",
+            apiKey: "0xAd828FA2C2cda69b45221191EE2108222b9D3E06",
+        });
+
+
+        const result = await sdk.assets.create(sdk.assets.generateAsset());
+        console.log(`${result.response.id}`);
+        const event = await sdk.events.generateEvent(`${result.response.id}`,
+            {
+                "type": "info",
+                "name": `${name}`,
+                "properties": {
+                    "description": `${description}`,
+                    "priceActive": `${priceActive}`,
+                    "category": `${category}`,
+                    "valability": `${valability}`,
+                    "commision": `${commision}`,
+                    "overprice": `${overprice}`,
+                    "paymentDate": `${paymentDate}`
+                },
+            }
+        );
+        console.log("EVENT  " + JSON.stringify(event));
+        const created = await sdk.events.createEvent(`${event.meta.asset_id}`, JSON.stringify(event));
+        console.log(created);
+    } catch (ex) {
         console.log(ex);
     }
 }
@@ -78,57 +78,65 @@ export default function Dashboard() {
             </Row>
             <FormGroup bsSize="large">
                 <FormGroup controlId="name">
-                    <ControlLabel>Nume oferta </ControlLabel>
+                    <ControlLabel></ControlLabel>
                     <FormControl
+                    placeholder="Nume oferta"
                         value={name}
                         onChange={e => setName(e.target.value)}
                     />
                 </FormGroup>
                 <FormGroup controlId="description">
-                    <ControlLabel>Descriere </ControlLabel>
+                    <ControlLabel></ControlLabel>
                     <FormControl
+                    placeholder="Descriere "
                         value={description}
                         onChange={e => setDescription(e.target.value)}
                     />
                 </FormGroup>
-                <ControlLabel controlId="priceActive">Pret energia active, fara alte componente (taxe) lei/mw</ControlLabel>
+                <ControlLabel controlId="priceActive"></ControlLabel>
                 <FormControl
+                placeholder="Pret energia active, fara alte componente (taxe) lei/mw"
                     value={priceActive}
                     onChange={e => setPriceActive(e.target.value)}
                 />
 
             </FormGroup>
             <FormGroup>
-                <ControlLabel>Categorie consumator</ControlLabel>
+                <ControlLabel></ControlLabel>
                 <FormControl
+                placeholder="Categorie consumator"
                     value={category}
                     onChange={e => setCategory(e.target.value)}
                 />
             </FormGroup>
             <FormGroup>
-                <ControlLabel>Valabilite (luni)</ControlLabel>
+                <ControlLabel></ControlLabel>
                 <FormControl
+                placeholder="Valabilite (luni)"
                     value={valability}
                     onChange={e => setValability(e.target.value)}
                 />
             </FormGroup>
             <FormGroup>
-                <ControlLabel>Comision in lei/MW </ControlLabel>
+                <ControlLabel></ControlLabel>
                 <FormControl
+                placeholder="Comision in lei/MW "
                     value={commision}
                     onChange={e => setCommision(e.target.value)}
                 />
             </FormGroup>
             <FormGroup>
-                <ControlLabel>Overprice</ControlLabel>
+                <ControlLabel></ControlLabel>
                 <FormControl
+                placeholder="Overprice"
                     value={overprice}
                     onChange={e => setOverprice(e.target.value)}
                 />
             </FormGroup>
             <FormGroup>
-                <ControlLabel>Termen de plata</ControlLabel>
+                <ControlLabel></ControlLabel>
                 <FormControl
+                placeholder="Termen de plata"
                     value={paymentDate}
                     onChange={e => setPaymentDate(e.target.value)}
                 />
